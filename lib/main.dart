@@ -70,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> _incrementCounter() async {
     print('Start second page');
-    var ack = await router.push(name: MCRouter.playerPage, arguments: 'Hello from mainPage');
+    var ack = await router.push(name: MCRouter.videoListPage, arguments: 'Hello from mainPage');
     print('Ack: $ack');
   }
 
