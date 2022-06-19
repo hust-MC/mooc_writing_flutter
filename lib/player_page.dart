@@ -3,13 +3,16 @@ import 'package:player/player.dart';
 import 'package:player/video_view.dart';
 
 class PlayerPage extends StatefulWidget {
+
+  final String url;
+
+  const PlayerPage(this.url);
+
   @override
   State<StatefulWidget> createState() => _PlayerPageState();
 }
 
 class _PlayerPageState extends State<PlayerPage> {
-  static const String url = 'https://sample-videos.com/video123/flv/240/big_buck_bunny_240p_10mb.flv';
-
   String version = 'null';
 
   @override
@@ -20,7 +23,8 @@ class _PlayerPageState extends State<PlayerPage> {
   @override
   Widget build(BuildContext context) {
     var player = Player();
-    player.setCommonDataSource(url, autoPlay: true);
+    print('video url is :${widget.url}');
+    player.setCommonDataSource(widget.url, type: SourceType.asset, autoPlay: true);
     return VideoView(player);
   }
 }
