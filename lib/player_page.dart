@@ -28,7 +28,7 @@ class _PlayerPageState extends State<PlayerPage> {
   Widget build(BuildContext context) {
     var player = Player();
     print('video url is :${widget.url}');
-    player.setCommonDataSource(widget.url, type: SourceType.asset, autoPlay: true);
+    player.setCommonDataSource(widget.url, type: SourceType.net, autoPlay: true);
     return GestureDetector(
         onLongPress: () async {
           await showDialog(
@@ -38,8 +38,13 @@ class _PlayerPageState extends State<PlayerPage> {
                   title: const Text("提示"),
                   content: const Text("要下载本视频吗"),
                   actions: <Widget>[
-                    FlatButton(child: const Text("取消"), onPressed: () => Navigator.pop(context, "cancel")),
-                    FlatButton(child: const Text("确定"), onPressed: () => _saveVideo()),
+                    TextButton(child: const Text("取消"), onPressed: () => Navigator.pop(context, "cancel")),
+                    TextButton(
+                        child: const Text("确定"),
+                        onPressed: () {
+                          _saveVideo();
+                          Navigator.pop(context, 'confirm');
+                        }),
                   ],
                 );
               });
@@ -59,8 +64,12 @@ class _PlayerPageState extends State<PlayerPage> {
     print('start');
 
     var appDocDir = await getExternalStorageDirectory();
+    print('start: $appDocDir');
+
     String savePath = "${appDocDir?.path}/temp.mp4";
-    await Dio().download("https://ss0.baidu.com/94o3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=a62e824376d98d1069d40a31113eb807/838ba61ea8d3fd1fc9c7b6853a4e251f94ca5f46.jpg", savePath);
+    await Dio().download(
+        "https://ss0.baidu.com/94o3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=a62e824376d98d1069d40a31113eb807/838ba61ea8d3fd1fc9c7b6853a4e251f94ca5f46.jpg",
+        savePath);
     print('downlaod : $savePath');
 
     // final result = await ImageGallerySaver.saveFile(savePath);
