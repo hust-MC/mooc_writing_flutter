@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mc/video_controller.dart';
 import 'package:player/player.dart';
 import 'package:player/video_view.dart';
 
@@ -11,6 +12,19 @@ class VideoList extends StatefulWidget {
 }
 
 class _VideoListState extends State<VideoList> {
+  late VideoController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = VideoController();
+    _controller.init();
+    print('MOOC- title: ${_controller.title}');
+    print('MOOC- url: ${_controller.url}');
+    print('MOOC- playCount: ${_controller.playCount}');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,13 +33,12 @@ class _VideoListState extends State<VideoList> {
             itemCount: 15,
             itemBuilder: (context, index) {
               // 实际羡慕中， 通过dateList[index]取出url
-              var url = 'asset/videos/test.flv';
               return GestureDetector(
                   child: AbsorbPointer(
                       absorbing: true,
-                      child: VideoView(Player()
-                        ..setCommonDataSource('asset/videos/test.flv', type: SourceType.asset, autoPlay: true))),
-                  onTap: () async => await router.push(name: MCRouter.playerPage, arguments: url));
+                      child: VideoView(
+                          Player()..setCommonDataSource(_controller.url, type: SourceType.net, autoPlay: true))),
+                  onTap: () async => await router.push(name: MCRouter.playerPage, arguments: _controller.url));
             }));
   }
 }
