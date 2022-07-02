@@ -37,11 +37,11 @@ class _PlayerPageState extends State<PlayerPage> {
                   title: const Text('提示'),
                   content: const Text('确认下载本视频吗？'),
                   actions: <Widget>[
-                    TextButton(onPressed: () => Navigator.pop(context, 'cancer'), child: const Text('取消')),
+                    TextButton(onPressed: () => Navigator.pop(context, 'cancel'), child: const Text('取消')),
                     TextButton(
                         onPressed: () {
                           _saveVideo(widget.url);
-                          Navigator.pop(context, 'cancer');
+                          Navigator.pop(context, 'cancel');
                         },
                         child: const Text('确认'))
                   ],

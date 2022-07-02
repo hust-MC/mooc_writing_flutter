@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mc/video_controller.dart';
+import 'package:mc/video_page/video_controller.dart';
 import 'package:player/player.dart';
 import 'package:player/video_view.dart';
 
-import 'main.dart';
-import 'mc_router.dart';
+import '../main.dart';
+import '../mc_router.dart';
 
 class VideoList extends StatefulWidget {
   @override
@@ -20,9 +20,9 @@ class _VideoListState extends State<VideoList> {
 
     _controller = VideoController();
     _controller.init();
-    print('MOOC- title: ${_controller.title}');
-    print('MOOC- url: ${_controller.url}');
-    print('MOOC- playCount: ${_controller.playCount}');
+    print('MOOC- title: ${_controller.model.title}');
+    print('MOOC- url: ${_controller.model.url}');
+    print('MOOC- playCount: ${_controller.model.playCount}');
   }
 
   @override
@@ -37,8 +37,8 @@ class _VideoListState extends State<VideoList> {
                   child: AbsorbPointer(
                       absorbing: true,
                       child: VideoView(
-                          Player()..setCommonDataSource(_controller.url, type: SourceType.net, autoPlay: true))),
-                  onTap: () async => await router.push(name: MCRouter.playerPage, arguments: _controller.url));
+                          Player()..setCommonDataSource(_controller.model.url, type: SourceType.net, autoPlay: true))),
+                  onTap: () async => await router.push(name: MCRouter.playerPage, arguments: _controller.model.url));
             }));
   }
 }
