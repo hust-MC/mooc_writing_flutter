@@ -27,7 +27,7 @@ class MCRouter extends RouterDelegate<List<RouteSettings>>
 
   @override
   Widget build(BuildContext context) {
-    return Navigator(key: navigatorKey, pages: List.of(_pages), onPopPage: _onPopPage);
+    return Navigator(key: navigatorKey, pages: _pages, onPopPage: _onPopPage);
   }
 
   @override

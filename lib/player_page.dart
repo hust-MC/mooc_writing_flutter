@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:mc/main.dart';
 import 'package:player/player.dart';
 import 'package:player/video_view.dart';
 
@@ -56,9 +56,7 @@ class _PlayerPageState extends State<PlayerPage> {
     String name = uri.pathSegments.last;
     print('MOOC-save video: $url');
 
-    var dir = await getExternalStorageDirectory();
-
-    String savePath = "${dir?.path}/$name";
+    String savePath = "$sdcardPath/$name";
 
     print('MOOC-savePath: $savePath');
 

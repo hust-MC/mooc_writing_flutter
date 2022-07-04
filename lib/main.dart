@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mc/mc_router.dart';
+import 'package:path_provider/path_provider.dart';
 
 void main() {
   runApp(const MyApp());
+  init();
+}
+
+String sdcardPath = '/storage/emulated/0/';
+
+init() {
+  getExternalStorageDirectory().then((value) {
+    sdcardPath = value?.path ?? sdcardPath;
+    print('MOOC- sdcard path: $sdcardPath');
+  });
 }
 
 MCRouter router = MCRouter();
@@ -131,6 +142,5 @@ class _MyHomePageState extends State<MyHomePage> {
     String result = await _channel.invokeMethod('getFlutterInfo', map);
     print('Method invoke result: $result');
     print('map is : ${map['name']}');
-
   }
 }
