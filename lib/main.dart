@@ -8,7 +8,7 @@ void main() {
   init();
 }
 
-String sdcardPath = '/storage/emulated/0/';
+String sdcardPath = '/storage/emulated/0/Android/data/com.example.mc/files';
 
 init() {
   getExternalStorageDirectory().then((value) {
