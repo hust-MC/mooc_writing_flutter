@@ -1,15 +1,19 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:fijkplayer/fijkplayer.dart';
-import 'package:flutter/services.dart';
 
 class Player extends FijkPlayer {
   static const asset_url_suffix = "asset:///";
 
-  String? cachePath;
+  static String _cachePath = '/storage/emulated/0/Android/data/com.example.mc/files';
   bool enableCache = false;
 
-  Player({this.cachePath, this.enableCache = false});
+  Player({this.enableCache = false});
+
+  static void setCachePath(String path) {
+    _cachePath = path;
+  }
 
   @override
   Future<void> setDataSource(
@@ -17,9 +21,19 @@ class Player extends FijkPlayer {
     bool autoPlay = false,
     bool showCover = false,
   }) async {
-    path = 'ijkio:cache:ffio:$path';
+    var videoPath = getVideoCachePath(path, _cachePath);
+    if (File(videoPath).existsSync()) {
+      path = videoPath;
+      print("MOOC- play cache video : $path");
+    } else if (enableCache) {
+      path = 'ijkio:cache:ffio:$path';
+      setOption(FijkOption.formatCategory, "cache_file_path", getVideoCachePath(path, _cachePath));
+      print("MOOC- play http with cache: $path");
+    } else {
+      print("MOOC- play http : $path");
+    }
+
     super.setDataSource(path, autoPlay: autoPlay, showCover: showCover);
-    setOption(FijkOption.formatCategory, "cache_file_path", '/storage/emulated/0/1.tmp'); //每首歌的临时文件名自己根据自己需要生成就行了。
   }
 
   void setCommonDataSource(
@@ -33,6 +47,15 @@ class Player extends FijkPlayer {
     }
     setDataSource(url, autoPlay: autoPlay, showCover: showCover);
   }
+}
+
+String getVideoCachePath(String url, String cachePath) {
+  Uri uri = Uri.parse(url);
+  String name = uri.pathSegments.last;
+  var path = '$cachePath/$name';
+  print('MOOC-get vido path: $path');
+
+  return path;
 }
 
 enum SourceType { net, asset }

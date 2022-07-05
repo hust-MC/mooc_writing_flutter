@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mc/mc_router.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:player/player.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,6 +14,7 @@ String sdcardPath = '/storage/emulated/0/Android/data/com.example.mc/files';
 init() {
   getExternalStorageDirectory().then((value) {
     sdcardPath = value?.path ?? sdcardPath;
+    Player.setCachePath(sdcardPath);
     print('MOOC- sdcard path: $sdcardPath');
   });
 }
