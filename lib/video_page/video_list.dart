@@ -20,9 +20,6 @@ class _VideoListState extends State<VideoList> {
 
     _controller = VideoController();
     _controller.init();
-    print('MOOC- title: ${_controller.model.title}');
-    print('MOOC- url: ${_controller.model.url}');
-    print('MOOC- playCount: ${_controller.model.playCount}');
   }
 
   @override
@@ -30,15 +27,16 @@ class _VideoListState extends State<VideoList> {
     return Scaffold(
         body: GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-            itemCount: 15,
+            itemCount: _controller.dataList.length,
             itemBuilder: (context, index) {
               // 实际羡慕中， 通过dateList[index]取出url
               return GestureDetector(
                   child: AbsorbPointer(
                       absorbing: true,
-                      child: VideoView(
-                          Player()..setCommonDataSource(_controller.model.url, type: SourceType.net, autoPlay: true))),
-                  onTap: () async => await router.push(name: MCRouter.playerPage, arguments: _controller.model.url));
+                      child: VideoView(Player()
+                        ..setCommonDataSource(_controller.dataList[index].url, type: SourceType.net, autoPlay: true))),
+                  onTap: () async =>
+                      await router.push(name: MCRouter.playerPage, arguments: _controller.dataList[index].url));
             }));
   }
 }
