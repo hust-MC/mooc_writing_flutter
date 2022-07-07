@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:mc/main.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:player/player.dart';
 import 'package:player/video_view.dart';
 

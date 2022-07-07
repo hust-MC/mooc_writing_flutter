@@ -14,6 +14,7 @@ class VideoView extends StatefulWidget {
 }
 
 class _VideoViewState extends State<VideoView> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,5 +39,12 @@ class _VideoViewState extends State<VideoView> {
       widget.player.pause();
     }
     setState(() {});
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    widget.player.release();
   }
 }

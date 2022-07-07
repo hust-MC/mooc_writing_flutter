@@ -19,7 +19,7 @@ class _VideoListState extends State<VideoList> {
     super.initState();
 
     _controller = VideoController();
-    _controller.init();
+    _controller.init().then((value) => setState(() {}));
   }
 
   @override
@@ -31,10 +31,13 @@ class _VideoListState extends State<VideoList> {
             itemBuilder: (context, index) {
               // 实际羡慕中， 通过dateList[index]取出url
               return GestureDetector(
-                  child: AbsorbPointer(
-                      absorbing: true,
-                      child: VideoView(Player()
-                        ..setCommonDataSource(_controller.dataList[index].url, type: SourceType.net, autoPlay: true))),
+                  child: _controller.dataList == null
+                      ? Container() // 加载提示或者骨架屏
+                      : AbsorbPointer(
+                          absorbing: true,
+                          child: VideoView(Player()
+                            ..setCommonDataSource(_controller.dataList![index].url,
+                                type: SourceType.net, autoPlay: true))),
                   onTap: () async =>
                       await router.push(name: MCRouter.playerPage, arguments: _controller.dataList![index].url));
             }));
