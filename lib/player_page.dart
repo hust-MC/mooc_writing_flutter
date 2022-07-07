@@ -4,6 +4,8 @@ import 'package:mc/main.dart';
 import 'package:player/player.dart';
 import 'package:player/video_view.dart';
 
+import 'main.dart';
+
 class PlayerPage extends StatefulWidget {
   final String url;
 

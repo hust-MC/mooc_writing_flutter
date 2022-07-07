@@ -27,7 +27,7 @@ class _VideoListState extends State<VideoList> {
     return Scaffold(
         body: GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-            itemCount: _controller.dataList.length,
+            itemCount: _controller.dataList?.length,
             itemBuilder: (context, index) {
               // 实际羡慕中， 通过dateList[index]取出url
               return GestureDetector(
@@ -36,7 +36,7 @@ class _VideoListState extends State<VideoList> {
                       child: VideoView(Player()
                         ..setCommonDataSource(_controller.dataList[index].url, type: SourceType.net, autoPlay: true))),
                   onTap: () async =>
-                      await router.push(name: MCRouter.playerPage, arguments: _controller.dataList[index].url));
+                      await router.push(name: MCRouter.playerPage, arguments: _controller.dataList![index].url));
             }));
   }
 }
