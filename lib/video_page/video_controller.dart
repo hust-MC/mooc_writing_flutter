@@ -28,16 +28,20 @@ class VideoController {
     if (modelStr != null && modelStr.isNotEmpty) {
       // 二级缓存中找到数据，直接使用
       print('MOOC- 2/use sp data');
-      List<VideoModel> list = (jsonDecode(modelStr) as List<dynamic>).map((e) => VideoModel.fromJson(e)).toList();
-      return list;
+
+      var list = jsonDecode(modelStr) as List<dynamic>;
+      // jsonDecode获取到的是“List<Map>”，需要转换成List<VideoModel>
+      // List<Map> => List<VideoModel>
+
+      return list.map((e) => VideoModel.fromJson(e)).toList();
     } else {
       // 二级缓存未找到数据，走三级缓存
-      var model = jsonDecode(ServerData.fetchDataFromServer());
+      var list = jsonDecode(ServerData.fetchDataFromServer());
       var sp = await SharedPreferences.getInstance();
       sp.setString('videoModel', ServerData.fetchDataFromServer());
       print('MOOC- 3/fetch data from server');
-      List<VideoModel> list = (model as List<dynamic>).map((e) => VideoModel.fromJson(e)).toList();
-      return list;
+
+      return list.map((e) => VideoModel.fromJson(e)).toList();
     }
   }
 }
