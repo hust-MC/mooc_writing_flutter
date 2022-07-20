@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:mc/tik_tok_video_gesture.dart';
+import 'package:mc/video_gesture.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:player/player.dart';
 import 'package:player/video_view.dart';
@@ -29,7 +29,7 @@ class _PlayerPageState extends State<PlayerPage> {
     var player = Player();
     print('video url is :${widget.url}');
     player.setCommonDataSource(widget.url, type: SourceType.net, autoPlay: true);
-    return TikTokVideoGesture(
+    return VideoGesture(
         key: GlobalKey(),
         child: GestureDetector(
             onLongPress: () {

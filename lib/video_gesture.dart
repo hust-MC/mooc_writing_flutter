@@ -4,11 +4,8 @@ import 'dart:math';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-/// 视频手势封装
-/// 单击：暂停
-/// 双击：点赞，双击后再次单击也是增加点赞爱心
-class TikTokVideoGesture extends StatefulWidget {
-  const TikTokVideoGesture({
+class VideoGesture extends StatefulWidget {
+  const VideoGesture({
     required Key key,
     required this.child,
     required this.onAddFavorite,
@@ -20,11 +17,11 @@ class TikTokVideoGesture extends StatefulWidget {
   final Widget child;
 
   @override
-  _TikTokVideoGestureState createState() => _TikTokVideoGestureState();
+  State<VideoGesture> createState() => _VideoGestureState();
 }
 
-class _TikTokVideoGestureState extends State<TikTokVideoGesture> {
-  GlobalKey _key = GlobalKey();
+class _VideoGestureState extends State<VideoGesture> {
+  final GlobalKey _key = GlobalKey();
 
   // 内部转换坐标点
   Offset _p(Offset p) {
@@ -43,7 +40,7 @@ class _TikTokVideoGestureState extends State<TikTokVideoGesture> {
     var iconStack = Stack(
       children: icons
           .map<Widget>(
-            (p) => TikTokFavoriteAnimationIcon(
+            (p) => FavoriteAnimationIcon(
               key: Key(p.toString()),
               position: p,
               onAnimationComplete: () {
@@ -62,7 +59,6 @@ class _TikTokVideoGestureState extends State<TikTokVideoGesture> {
             instance.onTapDown = (detail) {
               setState(() {
                 if (canAddFavorite) {
-                  print('MCLOG添加爱心，当前爱心数量:${icons.length}');
                   icons.add(_p(detail.globalPosition));
                   widget.onAddFavorite.call();
                   justAddFavorite = true;
@@ -84,7 +80,6 @@ class _TikTokVideoGestureState extends State<TikTokVideoGesture> {
               canAddFavorite = true;
             };
             instance.onTapCancel = () {
-              print('MCLOG==onTapCancel');
             };
           },
         )
@@ -101,12 +96,12 @@ class _TikTokVideoGestureState extends State<TikTokVideoGesture> {
   }
 }
 
-class TikTokFavoriteAnimationIcon extends StatefulWidget {
+class FavoriteAnimationIcon extends StatefulWidget {
   final Offset position;
   final double size;
   final Function onAnimationComplete;
 
-  const TikTokFavoriteAnimationIcon({
+  const FavoriteAnimationIcon({
     required Key key,
     required this.onAnimationComplete,
     required this.position,
@@ -114,22 +109,16 @@ class TikTokFavoriteAnimationIcon extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _TikTokFavoriteAnimationIconState createState() => _TikTokFavoriteAnimationIconState();
+  FavoriteAnimationIconState createState() => FavoriteAnimationIconState();
 }
 
-class _TikTokFavoriteAnimationIconState extends State<TikTokFavoriteAnimationIcon> with TickerProviderStateMixin {
+class FavoriteAnimationIconState extends State<FavoriteAnimationIcon> with TickerProviderStateMixin {
   AnimationController? _animationController;
 
   @override
   void dispose() {
     _animationController?.dispose();
     super.dispose();
-  }
-
-  @override
-  void didChangeDependencies() {
-    print('MCLOGdidChangeDependencies');
-    super.didChangeDependencies();
   }
 
   @override
@@ -150,7 +139,7 @@ class _TikTokFavoriteAnimationIconState extends State<TikTokFavoriteAnimationIco
 
   startAnimation() async {
     await _animationController?.forward();
-    widget.onAnimationComplete?.call();
+    widget.onAnimationComplete.call();
   }
 
   double rotate = pi / 10.0 * (2 * Random().nextDouble() - 1);
@@ -189,15 +178,15 @@ class _TikTokFavoriteAnimationIconState extends State<TikTokFavoriteAnimationIco
       color: Colors.redAccent,
     );
     content = ShaderMask(
-      child: content,
       blendMode: BlendMode.srcATop,
       shaderCallback: (Rect bounds) => RadialGradient(
         center: Alignment.topLeft.add(Alignment(0.66, 0.66)),
-        colors: [
-          Color(0xffEF6F6F),
-          Color(0xffF03E3E),
+        colors: const [
+          Color(0xffEE6E6E),
+          Color(0xffF03F3F),
         ],
       ).createShader(bounds),
+      child: content,
     );
     Widget body = Transform.rotate(
       angle: rotate,
