@@ -12,15 +12,22 @@ class FavoriteGesture extends StatefulWidget {
 }
 
 class _FavoriteGestureState extends State<FavoriteGesture> {
+  final GlobalKey _key = GlobalKey();
   bool inFavorite = false;
 
   Offset temp = Offset.zero;
 
+  Offset _globalToLocal(Offset global) {
+    RenderBox renderBox = _key.currentContext?.findRenderObject() as RenderBox;
+    return renderBox.globalToLocal(global);
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+        key: _key,
         child: Stack(children: [
-          Container(width: double.infinity, color: Colors.black), // 使用Container来替代VideoView
+          widget.child,
           if (inFavorite)
             Positioned(
               top: temp.dy - widget.size / 2,
@@ -29,8 +36,7 @@ class _FavoriteGestureState extends State<FavoriteGesture> {
             )
         ]),
         onDoubleTapDown: (details) {
-          print('MOOC- onDoubleTapDown');
-          temp = details.globalPosition;
+          temp = _globalToLocal(details.globalPosition);
         },
         onDoubleTap: () {
           setState(() {
