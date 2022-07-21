@@ -1,11 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:mc/video_gesture.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:player/player.dart';
 import 'package:player/video_view.dart';
 
-import 'main.dart';
+import 'favorite_gesture.dart';
 
 class PlayerPage extends StatefulWidget {
   final String url;
@@ -29,8 +28,7 @@ class _PlayerPageState extends State<PlayerPage> {
     var player = Player();
     print('video url is :${widget.url}');
     player.setCommonDataSource(widget.url, type: SourceType.net, autoPlay: true);
-    return VideoGesture(
-        key: GlobalKey(),
+    return FavoriteGesture(
         child: GestureDetector(
             onLongPress: () {
               // 长按视频，弹出对话框
@@ -53,9 +51,7 @@ class _PlayerPageState extends State<PlayerPage> {
                     );
                   });
             },
-            child: VideoView(player)),
-        onSingleTap: () => print('MCLOG==== onSingleTap'),
-        onAddFavorite: () => print('MCLOG==== favorite'));
+            child: VideoView(player)));
   }
 
   _saveVideo(String url) async {

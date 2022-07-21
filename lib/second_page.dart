@@ -38,10 +38,10 @@ class _SecondPageState extends State<SecondPage> {
   }
 
   Future<void> _getPlatform() async {
-    print('MCLOG====$version');
+    print('MOOC====$version');
 
     // version = await Player.platformVersion;
-    print('MCLOG====$version');
+    print('MOOC====$version');
     setState(() => version);
   }
 
