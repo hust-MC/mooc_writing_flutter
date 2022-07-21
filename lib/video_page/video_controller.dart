@@ -36,7 +36,7 @@ class VideoController {
       return list.map((e) => VideoModel.fromJson(e)).toList();
     } else {
       // 二级缓存未找到数据，走三级缓存
-      var list = jsonDecode(ServerData.fetchDataFromServer());
+      var list = jsonDecode(ServerData.fetchDataFromServer()) as List<dynamic>;
       var sp = await SharedPreferences.getInstance();
       sp.setString('videoModel', ServerData.fetchDataFromServer());
       print('MOOC- 3/fetch data from server');

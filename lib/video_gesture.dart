@@ -36,7 +36,7 @@ class _VideoGestureState extends State<VideoGesture> {
       children: icons
           .map<Widget>(
             (p) => FavoriteAnimationIcon(
-              key: Key(p.toString()),
+              key: GlobalKey(),
               position: p,
               onAnimationComplete: () {
                 icons.remove(p);

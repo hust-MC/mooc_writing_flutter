@@ -56,12 +56,12 @@ class _FavoriteAnimationIconState extends State<FavoriteAnimationIcon> with Tick
 
   double get opa {
     if (value < appearDuration) {
-      return 0.99 / appearDuration * value;
+      return 1 / appearDuration * value;
     }
     if (value < dismissDuration) {
-      return 0.99;
+      return 1;
     }
-    var res = 0.99 - (value - dismissDuration) / (1 - dismissDuration);
+    var res = (1 - value) / (1 - dismissDuration);
     return res < 0 ? 0 : res;
   }
 
